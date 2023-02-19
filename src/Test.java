@@ -56,7 +56,7 @@ class Solution {
     }
 
     public static void main(String[] args) {
-        Solution T = new Solution();
+        Nothing T = new Nothing();
         Scanner kb = new Scanner(System.in);
         String s1 = kb.next();
         String s2 = kb.next();
