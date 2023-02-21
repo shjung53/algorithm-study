@@ -4,12 +4,11 @@ import java.util.Scanner;
 
 public class String_10 {
     public int[] solution(String str, char c){
-        int[] answer = new int[str.length()];
-        int p = 1000;
-        char[] s = str.toCharArray();
-
-        for(int i=0; i< s.length; i++){
-            if(s[i] == c){
+        int length = str.length();
+        int[] answer = new int[length];
+        int p=1000;
+        for(int i=0; i<length;i++){
+            if(str.charAt(i)==c){
                 p=0;
                 answer[i]=p;
             }else{
@@ -17,15 +16,18 @@ public class String_10 {
                 answer[i]=p;
             }
         }
-        for(int i= s.length-1; i >=0; i--){
-            if(s[i] == c){
+        p=1000;
+        for(int j=length-1; j>=0; j--){
+            if(str.charAt(j)==c){
                 p=0;
+                answer[j]=p;
             }else{
                 p++;
-                answer[i] = Math.min(answer[i], p);
+                if(p<answer[j]){
+                    answer[j]=p;
+                }
             }
         }
-
 
         return answer;
     }
