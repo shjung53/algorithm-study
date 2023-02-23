@@ -4,9 +4,7 @@ import java.util.ArrayList;
 
 public class level1_pw {
     class Solution {
-
-        public Solution(){}
-        public static String solution(String s, String skip, int index) {
+        public String solution(String s, String skip, int index) {
             String answer = "";
 
             ArrayList<Character> alphabet = new ArrayList<>();
@@ -43,9 +41,5 @@ public class level1_pw {
 
             return answer;
         }
-    }
-
-    public static void main(String[]args){
-        Solution.solution("qwertz", "abcdefghij", 20);
     }
 }
