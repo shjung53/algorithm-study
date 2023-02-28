@@ -1,7 +1,7 @@
 package programmers;
 
 public class level1_primeNum {
-    static class Solution {
+    class Solution {
         public int solution(int n) {
             int answer = 0;
 
@@ -17,10 +17,5 @@ public class level1_primeNum {
             }
             return answer;
         }
-    }
-
-    public static void main(String[] args) {
-        Solution t = new Solution();
-        System.out.println(t.solution(10));
     }
 }
