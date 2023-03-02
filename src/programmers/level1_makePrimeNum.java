@@ -9,7 +9,7 @@ public class level1_makePrimeNum {
                 for(int j=i+1; j<nums.length-1; j++){
                     for(int k=j+1; k<nums.length; k++){
                         boolean check=true;
-                        for (int l = 2; l <= Math.sqrt(nums[i]+nums[j]+nums[k]); l++) {
+                        for (int l = 2; l*l <= nums[i]+nums[j]+nums[k]; l++) {
                             if ((nums[i]+nums[j]+nums[k]) % l == 0){
                                 check=false;
                                 break;

@@ -7,29 +7,27 @@ public class level1_failRate {
         public int[] solution(int N, int[] stages) {
             int[] answer = new int[N];
             ArrayList<Stage> stageList = new ArrayList<>();
-            HashMap<Integer, Integer> userCount = new HashMap<>();
+            int[] userCount = new int[N+1];
             int all = stages.length;
             int before = 0;
 
-            for(int i=1; i<=N; i++){
-                userCount.put(i,0);
-            }
-
             for (int s : stages) {
-                userCount.put(s, userCount.getOrDefault(s, 0) + 1);
+                if(s>N){continue;}
+                userCount[s] = userCount[s]+1;
             }
 
 
             for (int i = 1; i <= N; i++) {
-                if (userCount.get(i) == 0) {
+                if (userCount[i] == 0) {
                     stageList.add(new Stage(i, 0.0));
                     continue;
                 }
-                double rate = (double) userCount.get(i) / (all - before);
+                double rate = (double) userCount[i] / (all - before);
                 stageList.add(new Stage(i, rate));
-                before += userCount.get(i);
+                before += userCount[i];
             }
 
+            Arrays.sort(answer);
             stageList.sort(new Comparator<Stage>() {
                 @Override
                 public int compare(Stage o1, Stage o2) {
