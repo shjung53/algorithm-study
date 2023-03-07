@@ -50,7 +50,8 @@ new_id는 길이 1 이상 1,000 이하인 문자열입니다.
 new_id는 알파벳 대문자, 알파벳 소문자, 숫자, 특수문자로 구성되어 있습니다.
 new_id에 나타날 수 있는 특수문자는 -_.~!@#$%^&*()=+[{]}:?,<>/ 로 한정됩니다. */
 public class level1_newId {
-    static class Solution {
+
+    class Solution {
         public String solution(String new_id) {
             String answer = "";
 
@@ -88,11 +89,6 @@ public class level1_newId {
 
             return answer;
         }
-    }
-
-    public static void main(String[] args) {
-        Solution t = new Solution();
-        System.out.println(t.solution(	"=.="));
     }
 }
 
