@@ -1,4 +1,4 @@
-package programmers;
+package programmers.레벨2;
 
 public class 레벨2_점프와_순간이동 {
 

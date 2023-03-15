@@ -1,4 +1,4 @@
-package programmers;
+package programmers.레벨2;
 
 public class level2_carpet {
     static class Solution {

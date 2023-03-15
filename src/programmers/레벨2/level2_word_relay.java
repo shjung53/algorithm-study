@@ -1,4 +1,4 @@
-package programmers;
+package programmers.레벨2;
 
 import java.util.HashSet;
 
