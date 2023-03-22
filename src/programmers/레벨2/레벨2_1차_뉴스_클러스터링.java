@@ -1,6 +1,7 @@
 package programmers.레벨2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
 뉴스 클러스터링
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 입력으로 들어온 두 문자열의 자카드 유사도를 출력한다. 유사도 값은 0에서 1 사이의 실수이므로, 이를 다루기 쉽도록 65536을 곱한 후에 소수점 아래를 버리고 정수부만 출력한다.
  */
 
+//1차 수정 23.03.22
 public class 레벨2_1차_뉴스_클러스터링 {
     public int 내풀이(String str1, String str2) {
         int answer = 0;
@@ -45,16 +47,14 @@ public class 레벨2_1차_뉴스_클러스터링 {
 
         for (int i = 0; i < str1.length() - 1; i++) {
             if (Character.isAlphabetic(str1.charAt(i)) && Character.isAlphabetic(str1.charAt(i + 1))) {
-                String sb = "" + str1.charAt(i) +
-                        str1.charAt(i + 1);
+                String sb = "" + str1.charAt(i) + str1.charAt(i + 1);
                 arr1.add(sb);
             }
         }
 
         for (int i = 0; i < str2.length() - 1; i++) {
             if (Character.isAlphabetic(str2.charAt(i)) && Character.isAlphabetic(str2.charAt(i + 1))) {
-                String sb = "" + str2.charAt(i) +
-                        str2.charAt(i + 1);
+                String sb = "" + str2.charAt(i) + str2.charAt(i + 1);
                 arr2.add(sb);
             }
         }
@@ -73,8 +73,56 @@ public class 레벨2_1차_뉴스_클러스터링 {
         return answer;
     }
 
+//    수정
+    public int 내풀이2(String str1, String str2) {
+        int answer = 0;
+        int arr1Size=0;
+        int arr2Size=0;
+        int commonSize = 0;
+        str1 = str1.toUpperCase();
+        str2 = str2.toUpperCase();
+        HashMap<String, Integer> arr1 = new HashMap<>();
+        HashMap<String, Integer> arr2 = new HashMap<>();
+        HashMap<String, Integer> common = new HashMap<>();
+
+        for (int i = 0; i < str1.length() - 1; i++) {
+            if (Character.isAlphabetic(str1.charAt(i)) && Character.isAlphabetic(str1.charAt(i + 1))) {
+                String sb = str1.substring(i, i + 2);
+                arr1.put(sb, arr1.getOrDefault(sb,0)+1);
+            }
+        }
+
+        for (int i = 0; i < str2.length() - 1; i++) {
+            if (Character.isAlphabetic(str2.charAt(i)) && Character.isAlphabetic(str2.charAt(i + 1))) {
+                String sb = str2.substring(i, i + 2);
+                arr2.put(sb, arr2.getOrDefault(sb,0)+1);
+            }
+        }
+
+        for (String s : arr1.keySet()) {
+            if(arr2.containsKey(s)){
+                if (arr2.get(s)>0) {
+                    common.put(s, Math.min(arr1.get(s), arr2.get(s)));
+                }
+            }
+        }
+
+        arr1Size = arr1.values().stream().reduce(0,Integer::sum);
+        arr2Size = arr2.values().stream().reduce(0,Integer::sum);
+        commonSize=common.values().stream().reduce(0,Integer::sum);
+
+        answer = (int) (65536 * getJaccard(arr1Size, arr2Size, commonSize));
+
+        return answer;
+    }
+
     double getJaccard(int arr1Size, int arr2Size, int commonSize) {
         if (arr1Size == 0 && arr2Size == 0) return 1;
         return (double) commonSize / (arr1Size + arr2Size - commonSize);
+    }
+
+    public static void main(String[] args) {
+        레벨2_1차_뉴스_클러스터링 a = new 레벨2_1차_뉴스_클러스터링();
+        a.내풀이2("handshake", "shake hands");
     }
 }
