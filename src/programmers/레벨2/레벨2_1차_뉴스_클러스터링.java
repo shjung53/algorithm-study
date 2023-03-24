@@ -112,7 +112,7 @@ public class 레벨2_1차_뉴스_클러스터링 {
         commonSize=common.values().stream().reduce(0,Integer::sum);
 
         answer = (int) (65536 * getJaccard(arr1Size, arr2Size, commonSize));
-
+        
         return answer;
     }
 
