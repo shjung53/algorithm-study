@@ -1,7 +1,7 @@
 package programmers.레벨2
 
 class 할인_행사 {
-    fun solution(want: Array<String>, number: IntArray, discount: Array<String>): Int {
+    fun 내풀이(want: Array<String>, number: IntArray, discount: Array<String>): Int {
         var answer: Int = 0
 
         val wants = HashMap<String,Int>()
@@ -32,7 +32,3 @@ class 할인_행사 {
     }
 }
 
-fun main() {
-    val a = 할인_행사()
-    a.solution(arrayOf("banana", "apple", "rice", "pork", "pot"),	intArrayOf(3, 2, 2, 2, 1),	arrayOf("chicken", "apple", "apple", "banana", "rice", "apple", "pork", "banana", "pork", "rice", "pot", "banana", "apple", "banana"))
-}
