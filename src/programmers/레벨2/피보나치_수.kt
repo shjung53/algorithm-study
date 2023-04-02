@@ -31,15 +31,15 @@ class 피보나치_수 {
         return answer
     }
 
-//    i가 크면 숫자의 범위가 너무 커져서 미리 나눠주어야 한다.
+    //    i가 크면 숫자의 범위가 너무 커져서 미리 나눠주어야 한다.
     fun fiboFibonacci(i: Int): Int {
         if (i == 0) return 0
         if (i == 1) return 1
-        if(arr[i]==0){
-            arr[i] = (fiboFibonacci(i - 1) + fiboFibonacci(i - 2))%1234567
-            return arr[i]
-        }else{
-            return arr[i]
+        return if (arr[i] == 0) {
+            arr[i] = (fiboFibonacci(i - 1) + fiboFibonacci(i - 2)) % 1234567
+            arr[i]
+        } else {
+            arr[i]
         }
     }
 }
