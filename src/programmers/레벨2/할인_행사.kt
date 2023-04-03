@@ -1,7 +1,5 @@
 package programmers.레벨2
 
-import com.sun.xml.internal.fastinfoset.util.StringArray
-
 class 할인_행사 {
     fun solution(want: Array<String>, number: IntArray, discount: Array<String>): Int {
         var answer: Int = 0
