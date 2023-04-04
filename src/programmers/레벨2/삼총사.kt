@@ -66,7 +66,3 @@ class 삼총사 {
 
 }
 
-fun main() {
-    val a = 삼총사()
-    a.solution(intArrayOf(3,2,6,8,-8,0))
-}
