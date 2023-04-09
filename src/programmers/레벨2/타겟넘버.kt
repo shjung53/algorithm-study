@@ -39,8 +39,3 @@ class 타겟넘버 {
     }
 
 }
-
-fun main(){
-    val a = 타겟넘버()
-    a.solution(intArrayOf(1,1,1,1,1),   3)
-}
