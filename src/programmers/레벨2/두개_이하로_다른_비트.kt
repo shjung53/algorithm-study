@@ -27,7 +27,7 @@ f(7) = 11 입니다. 다음 표와 같이 7보다 큰 수들 중에서 비트가
  */
 class 두개_이하로_다른_비트 {
 
-//    좀 잘푼 것 같다.
+//    잘 푼 것 같은데 더 빠른 방법이 있다..
     fun 내풀이(numbers: LongArray): LongArray {
         var answer = LongArray(numbers.size)
 
@@ -44,6 +44,16 @@ class 두개_이하로_다른_비트 {
             answer[i]= (numbers[i]+ 2.0.pow(count)).toLong()
         }
 
+        return answer
+    }
+
+//    더 빠른 풀이, 규칙이 이해가 잘 안된다..
+    fun 다른풀이(numbers: LongArray): LongArray {
+        val answer = numbers.clone()
+        for (i in answer.indices) {
+            answer[i]++
+            answer[i] += answer[i] xor numbers[i] ushr 2
+        }
         return answer
     }
 }
