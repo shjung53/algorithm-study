@@ -26,7 +26,7 @@ truck_weights의 길이는 1 이상 10,000 이하입니다.
 모든 트럭의 무게는 1 이상 weight 이하입니다.
  */
 class 다리를_지나는_트럭 {
-    // 큐를 여러개 쓰는 것도 고려할 것
+    // BFS
     fun 내풀이(bridge_length: Int, weight: Int, truck_weights: IntArray): Int {
         var answer = 0
 
