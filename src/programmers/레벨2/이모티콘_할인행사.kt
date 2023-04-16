@@ -69,10 +69,9 @@ class 이모티콘_할인행사 {
 
 //    네이버 코테를 보고 IDE를 안쓰고 풀어보고 있다. 잘 구현한 것 같다
     fun 내풀이(users: Array<IntArray>, emoticons: IntArray): IntArray {
-        var answer: IntArray = intArrayOf()
 
         val discountList = intArrayOf(10, 20, 30, 40)
-        var discount = IntArray(emoticons.size)
+        val discount = mutableListOf<Int>(emoticons.size)
 
         dfs(0, discount, discountList, users, emoticons)
 
@@ -80,7 +79,7 @@ class 이모티콘_할인행사 {
         return intArrayOf(maxUser, maxSales)
     }
 
-    fun dfs(idx: Int, discount: IntArray, discountList: IntArray,
+    fun dfs(idx: Int, discount: MutableList<Int>, discountList: IntArray,
             users: Array<IntArray>, emoticons: IntArray) {
         if(idx > discount.lastIndex) {
             var userCount = 0
