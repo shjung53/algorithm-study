@@ -9,49 +9,43 @@ package programmers.레벨2
 word의 길이는 1 이상 5 이하입니다.
 word는 알파벳 대문자 'A', 'E', 'I', 'O', 'U'로만 이루어져 있습니다.
  */
-class 모음사전    {
-
+class Solution {
     val vowel = "AEIOU"
     var count = 0
     var answer = 0
-
-    fun 내풀이(word: String): Int {
-
+    fun solution(word: String): Int {
         dfs(word, "")
-
         return answer
     }
 
     fun dfs(word: String, str: String) {
-
-        if(str == word) answer = count
-        if(str.length >= 5) {
-            count++
+        if (str == word) answer = count
+        count++
+        if (str.length >= 5) {
             return
         }
-        count++
-        for (i in 0 .. vowel.length - 1) {
+        for (i in 0..vowel.length - 1) {
             dfs(word, str + vowel[i])
         }
     }
+}
 
-    //    dfs하면서 list에 담아주고 idx로 순서를 찾는다. 빠르다 간결하고
-    val arr = arrayOf("A", "E", "I", "O", "U")
-    val result = mutableListOf<String>()
+//    dfs하면서 list에 담아주고 idx로 순서를 찾는다. 빠르다 간결하고
+val arr = arrayOf("A", "E", "I", "O", "U")
+val result = mutableListOf<String>()
 
-    fun 다른풀이(word: String): Int {
-        dfs("")
-        result.forEachIndexed { idx, s ->
-            if(s == word) return idx
-        }
-        return -1
+fun 다른풀이(word: String): Int {
+    dfs("")
+    result.forEachIndexed { idx, s ->
+        if (s == word) return idx
     }
+    return -1
+}
 
-    fun dfs(str: String) {
-        if(str.length > 5) return
-        result.add(str)
-        for(a in arr) {
-            dfs(str + a)
-        }
+fun dfs(str: String) {
+    if (str.length > 5) return
+    result.add(str)
+    for (a in arr) {
+        dfs(str + a)
     }
 }
