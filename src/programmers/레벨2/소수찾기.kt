@@ -19,14 +19,12 @@ class 소수찾기 {
 
     fun dfs(num: String, numbers: String, visited: Array<Boolean>) {
         var str = num
-        if(str == "0") return
         if(str.length >= numbers.length) return
         for(i in numbers.indices) {
             if(visited[i]) continue
-            str += numbers[i]
-            duplication.add(str.toInt())
+            duplication.add((str + numbers[i]).toInt())
             visited[i] = true
-            dfs(str, numbers, visited)
+            dfs(str + numbers[i], numbers, visited)
             visited[i] = false
         }
     }
