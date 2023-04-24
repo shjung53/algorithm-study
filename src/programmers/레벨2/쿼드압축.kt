@@ -58,8 +58,3 @@ class 쿼드압축 {
         }
     }
 }
-
-fun main() {
-    val a = 쿼드압축()
-    a.solution(arrayOf(intArrayOf(0, 0, 0, 0), intArrayOf(0, 0, 0, 0), intArrayOf(0, 0, 0, 0), intArrayOf(0, 0, 0, 0)))
-}
