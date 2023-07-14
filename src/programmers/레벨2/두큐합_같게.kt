@@ -5,76 +5,97 @@ import kotlin.collections.ArrayDeque
 
 class 두큐합_같게 {
     fun solution(queue1: IntArray, queue2: IntArray): Int {
-        var answer: Int = 0
+        var answer1: Int = 0
+        var answer2: Int = 0
 
-        val q1 = LinkedList<Int>()
-        val q2 = LinkedList<Int>()
-        var sum1 = 0L
-        var sum2 = 0L
         val total = queue1 + queue2
 
-        val case = LinkedList<Bfs>()
-
-        for(i in queue1) {
-            q1.addLast(i)
-            sum1 += i
-        }
-
-        for(i in queue2) {
-            q2.addLast(i)
-            sum2 += i
-        }
+        val totalCount = queue1.size + queue2.size
 
         Arrays.sort(total)
 
-        if(!checkPossible(total, sum1 + sum2)) return -1
+        val totalSum = total.sum()
 
-        case.offer(Bfs(LinkedList<Int>(q1), LinkedList<Int>(q2), sum1, sum2, 0, 1))
-        case.offer(Bfs(LinkedList<Int>(q1), LinkedList<Int>(q2), sum1, sum2, 0, 2))
+        if (totalSum and 1 == 1) return -1
+        val goal = totalSum shr 1
 
-        while(case.isNotEmpty()) {
-            val bfs = case.poll()
-            if(bfs.sum1 == bfs.sum2) {
-                answer = bfs.count
-                break
-            }
+        var sum = 0
 
-            if(bfs.q1.isEmpty() || bfs.q2.isEmpty()) continue
+        for (i in total) {
+            sum += i
+            if (sum == goal) break
+        }
 
-            if(bfs.turn == 1) {
-                val poll = bfs.q1.poll()
-                bfs.q2.offer(poll)
-                case.offer(Bfs(LinkedList<Int>(bfs.q1), LinkedList<Int>(bfs.q2), bfs.sum1 - poll, bfs.sum2 + poll, bfs.count+1, 1))
-                case.offer(Bfs(LinkedList<Int>(bfs.q1), LinkedList<Int>(bfs.q2), bfs.sum1 - poll, bfs.sum2 + poll, bfs.count+1, 2))
+        val circular1 = queue1 + queue2 + queue1
+
+        var left = 0
+        var right = 0
+        sum = 0
+
+        sum += circular1[right]
+
+        while (sum != goal) {
+            if (left > right) return -1
+            if (sum > goal) {
+                sum -= circular1[left]
+                left++
             } else {
-                val poll = bfs.q2.poll()
-                bfs.q1.offer(poll)
-                case.offer(Bfs(LinkedList<Int>(bfs.q1), LinkedList<Int>(bfs.q2), bfs.sum1 + poll, bfs.sum2 - poll, bfs.count+1, 1))
-                case.offer(Bfs(LinkedList<Int>(bfs.q1), LinkedList<Int>(bfs.q2), bfs.sum1 + poll, bfs.sum2 - poll, bfs.count+1, 2))
+                if (right >= circular1.size - 1) return -1
+                if (right - left <= totalCount - 2) {
+                    right++
+                    sum += circular1[right]
+                }
             }
-
         }
-        return answer
-    }
-
-    private fun checkPossible(total: IntArray, sum: Long): Boolean {
-        if(sum and 1L == 1L) return false
-        val queue = LinkedList<Check>()
-
-        queue.offer(Check(0, 0, sum / 2, total))
-
-        while (queue.isNotEmpty()) {
-            val check = queue.poll()
-            if(check.count == check.goal) return true
-            if(check.idx == total.lastIndex) continue
-            queue.offer(Check(check.idx + 1, check.count, check.goal, check.total))
-            queue.offer(Check(check.idx + 1, check.count + total[check.idx], check.goal, check.total))
+        if (left < queue1.size) {
+            if(right < queue1.size + queue2.size) {
+                answer1 += left + right - queue1.size + 1
+            } else {
+                answer1 += right
+            }
+        } else {
+            if(right < queue1.size + queue2.size) {
+                answer1 += queue1.size + right - left + 1
+            } else {
+                answer1 += right - queue1.size - queue2.size
+            }
         }
-        return false
-    }
 
-    class Bfs(val q1: LinkedList<Int>, val q2: LinkedList<Int>, val sum1: Long, val sum2: Long, val count: Int, val turn: Int)
-    class Check(val idx: Int, val count: Long, val goal: Long, val total: IntArray)
+        left = 0
+        right = 0
+        val circular2 = queue2 + queue1 + queue2
+        sum = 0
+        sum += circular2[right]
+
+        while (sum != goal) {
+            if (left > right) return -1
+            if (sum > goal) {
+                sum -= circular2[left]
+                left++
+            } else {
+                if (right >= circular2.size - 1) return -1
+                if (right - left <= totalCount - 2) {
+                    right++
+                    sum += circular2[right]
+                }
+            }
+        }
+        if (left < queue2.size) {
+            if(right < queue2.size + queue1.size) {
+                answer2 += left + right - queue2.size + 1
+            } else {
+                answer2 += right
+            }
+        } else {
+            if(right < queue2.size + queue1.size) {
+                answer2 += queue2.size + right - left + 1
+            } else {
+                answer2 += right - queue2.size - queue1.size
+            }
+        }
+
+        return minOf(answer1, answer2)
+    }
 }
 
 fun main() {
