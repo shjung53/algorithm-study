@@ -1,4 +1,4 @@
-package ssafy.pre_edu;
+package pre_edu;
 
 import java.util.Scanner;
 
