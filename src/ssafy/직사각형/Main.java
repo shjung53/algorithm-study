@@ -28,8 +28,8 @@ public class Main {
 
 			boolean yMeet = false;
 			boolean xMeet = false;
-			boolean xNotExceed = false;
-			boolean yNotExceed = false;	
+			boolean xNotMeet = false;
+			boolean yNotMeet = false;
 
 			String answer = "";
 
@@ -39,27 +39,23 @@ public class Main {
 			if (sq1BigY == sq2SmallY || sq2BigY == sq1SmallY)
 				yMeet = true;
 
-			if ((sq1SmallX > sq2SmallX && sq1SmallX > sq2BigX) || (sq2SmallX > sq1SmallX && sq2SmallX > sq1BigX)) {
-				xNotExceed = true;
+			if ((sq1SmallX > sq2BigX) || (sq2SmallX > sq1BigX)) {
+				xNotMeet = true;
 			}
 
 			if ((sq1SmallY > sq2SmallY && sq1SmallY > sq2BigY) || (sq2SmallY > sq1SmallY && sq2SmallY > sq1BigY)) {
-				yNotExceed = true;
+				yNotMeet = true;
 			}
 
-			if (xNotExceed && yNotExceed && !xMeet && !yMeet)
+			if (xNotMeet || yNotMeet) {
 				answer = "d";
-
-			if (xMeet && yMeet && answer == "")
+			} else if (xMeet && yMeet) {
 				answer = "c";
-
-			if (xMeet && !yNotExceed && answer == "")
+			} else if (xMeet || yMeet) {
 				answer = "b";
-			if (yMeet && !xNotExceed && answer == "")
-				answer = "b";
-
-			if (answer == "")
+			} else {
 				answer = "a";
+			}
 			System.out.println(answer);
 		}
 
