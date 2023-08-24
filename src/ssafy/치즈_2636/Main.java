@@ -25,25 +25,34 @@ public class Main {
 				board[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
-		
+
 		int second = 0;
-		int beforeCount =0;
+		int beforeCount = 0;
 		count = 0;
-		countPiece(board);
-		meetAir(0, 0);
-		
-		while(count > 0) {
+		countPiece();
+
+		while (count > 0) {
 			second++;
+			meetAir(0, 0);
+			reset();
 			eraseHole();
 			beforeCount = count;
 			count = 0;
-			countPiece(board);
+			countPiece();
 		}
-		
+
 		System.out.println(second);
 		System.out.println(beforeCount);
-		
-		
+
+	}
+	
+	private static void reset() {
+		for (int i = 0; i < h; i++) {
+			for (int j = 0; j < w; j++) {
+				if (board[i][j] == -1)
+					board[i][j] = 0;
+			}
+		}
 	}
 
 	private static void meetAir(int y, int x) {
@@ -64,11 +73,12 @@ public class Main {
 			}
 		}
 	}
-	
+
 	private static void eraseHole() {
 		for (int i = 0; i < h; i++) {
 			for (int j = 0; j < w; j++) {
-				if(board[i][j] == 2) board[i][j] = 0;
+				if (board[i][j] == 2)
+					board[i][j] = 0;
 			}
 		}
 	}
@@ -79,29 +89,13 @@ public class Main {
 		return true;
 	}
 
-	private static void countPiece(int[][] snapBoard) {
+	private static void countPiece() {
 		for (int i = 0; i < h; i++) {
 			for (int j = 0; j < w; j++) {
-				if (snapBoard[i][j] == 1) {
-					dfs(snapBoard, i, j);
+				if (board[i][j] == 1) {
 					count++;
 				}
 			}
 		}
 	}
-
-	private static void dfs(int[][] snapBoard, int y, int x) {
-		snapBoard[y][x] = 0;
-		for (int i = 0; i < 4; i++) {
-			int newX = x + dx[i];
-			int newY = y + dy[i];
-			if (check(newY, newX)) {
-				if (snapBoard[newY][newX] == 1) {
-					dfs(snapBoard, newY, newX);
-				}
-			}
-		}
-
-	}
-
 }
