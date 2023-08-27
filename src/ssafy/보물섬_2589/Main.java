@@ -1,4 +1,4 @@
-package 보물섬;
+package 보물섬_2589;
 
 import java.util.*;
 import java.io.*;
