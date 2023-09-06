@@ -7,7 +7,6 @@ public class Main {
 	static int k;
 	static int n;
 	static int[] lengths;
-	static long standard;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,40 +17,28 @@ public class Main {
 		for (int i = 0; i < k; i++) {
 			lengths[i] = Integer.parseInt(br.readLine());
 		}
-
-		long sum = 0;
-		for (int i = 0; i < k; i++) {
-			sum += lengths[i];
-		}
 		
-//		평균으로 나누어 떨어지면 가장 최댓값이 됨
-		standard = sum / n;
-		int count = 0;
+		Arrays.sort(lengths);
+		
+		long start = 1;
+//		n >= 1 이므로 가장 긴 랜선이 최대 길이
+		long end = lengths[k-1];
 
-//		안되는 경우에는 나머지 때문에 작아질 수 밖에 없음
-		while (count < n) {
-			count = 0;
-			int next = 0;
-			long maxRest = 0;
+//		이분탐색으로 조건이 성립하는 범위 내 가장 큰 길이를 구해야 한다.
+		while (end > start) {
+			long mid = (start + end) / 2;
+			long count = 0;
 
 			for (int i = 0; i < k; i++) {
-//				나머지가 가장 큰 전선을 기억해둠
-				count += lengths[i] / standard;
-				long rest = lengths[i] % standard;
-				if (rest > maxRest) {
-					maxRest = rest;
-					next = i;
-				}
+				count += lengths[i] / mid;
 			}
-			
-//			성공하면 탈출
-			if(count >= n) break;
 
-//			실패시 나머지가 가장 큰 전선을 한 개 더 늘릴 수 있는  가장 큰 기준길이를 구한다.
-			long nextDivide = (lengths[next] / standard) + 1;
-			standard = lengths[next] / nextDivide;
+//			end를 최댓값으로 뽑아내기 때문에  count가 n 이상이면 start를 mid + 1
+//			답이 현재 mid인 경우 end가 작아지다가 현재 mid가 될때 while을 탈출함
+			if(count >= n) start = mid + 1;
+			if(count < n) end = mid - 1;
 		}
 
-		System.out.println(standard);
+		System.out.println(end);
 	}
 }
