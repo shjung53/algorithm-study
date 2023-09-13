@@ -28,14 +28,20 @@ public class Main {
 			int mid = (start + end) / 2;
 			int sum = 0;
 			for (int i = 0; i < n; i++) {
-				if(request[i] >= mid) sum += mid;
-				if(request[i] < mid) sum += request[i];
+				if (request[i] >= mid)
+					sum += mid;
+				if (request[i] < mid)
+					sum += request[i];
 			}
 			
-			if(sum > m) end = mid - 1;
-			if(sum <= m) start = mid + 1;
+//			총합이 예산보다 높으면 작은 범위로
+			if (sum > m)
+				end = mid - 1;
+//			총합이 예산보다 낮으면 큰범위로
+			if (sum <= m)
+				start = mid + 1;
 		}
-		
+
 		System.out.println(end);
 
 	}
