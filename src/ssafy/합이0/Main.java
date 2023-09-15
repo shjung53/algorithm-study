@@ -14,49 +14,59 @@ public class Main {
 			students[i] = Integer.parseInt(st.nextToken());
 		}
 
-		int count = 0;
+		long count = 0;
 
 //		정렬
 		Arrays.sort(students);
 
 //		하나의 값 선택하기 나머지 값에서 투포인터
-		for (int i = 0; i < n - 2; i++) {
+		for (int i = 0; i < n; i++) {
 			int left = i + 1;
-			int right = left + 1;
+			int right = n - 1;
 
-			if (students[i] + students[n - 2] + students[n - 1] < 0)
-				continue;
+			int goal = students[i] * -1;
 
-			while (right < n) {
-				int sum = students[i];
+			if (students[i] > 0)
+				break;
 
-				sum += students[left];
-				sum += students[right];
-
-				if (students[i] + students[left] + students[n - 1] < 0) {
+			while (left < right) {
+				if (left == i)
 					left++;
-					right = n - 1;
-					continue;
-				}
+				if (right == i)
+					right--;
+				int sum = students[left] + students[right];
+//				sum이 더 크면 right--
+				if (sum > goal) {
+					right--;
+//					sum이 더 작으면 left++
+				} else if (sum < goal) {
+					left++;
+				} else {
+//					sum == goal인 경우 나오는 상황 두가지로 나누어 경우의 수 계산
+//					left와 right의 해당하는 값 같을 때 해당 값 카운트하고  nC2
+					if (students[left] == students[right]) {
+						long sameCnt = right - left + 1;
+						count += (sameCnt * (sameCnt - 1)) / 2;
+						break;
+					} else {
+						long leftCnt = 0;
+						long rightCnt = 0;
 
-//				합이 0이면 추가
-				if (sum == 0)
-					count++;
-
-//				0보다 같거나 작으면 right이동(코딩실력이 같은 학생이 있을 수 있음)
-				if (sum <= 0) {
-					right++;
-					if (right >= n) {
-						left++;
-						right = n - 1;
+						int newR = right;
+						int newL = left;
+						while (students[newR] == students[right]) {
+							newR--;
+							rightCnt++;
+						}
+						while (students[newL] == students[left]) {
+							newL++;
+							leftCnt++;
+						}
+						right = newR;
+						left = newL;
+						count += leftCnt * rightCnt;
 					}
 				}
-//				정렬되어 있으므로 합이 0보다 크면 left 이동
-				if (sum > 0) {
-					left++;
-					right = left + 1;
-				}
-
 			}
 		}
 
