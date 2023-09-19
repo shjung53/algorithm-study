@@ -17,8 +17,8 @@ public class Solution {
 	static StringTokenizer st;
 
 	// 수영할 수 있는 상하좌우
-	static int[] dy = { 0, 1, 0, -1 };
-	static int[] dx = { 1, 0, -1, 0 };
+	static int[] directionY = { 0, 1, 0, -1 };
+	static int[] directionX = { 1, 0, -1, 0 };
 
 	// 바다 배열
 	// 바다의 왼쪽위에서 오른쪽 아래로 0,0 ~ n,n
@@ -65,7 +65,6 @@ public class Solution {
 				st = new StringTokenizer(br.readLine().trim());
 				for (int colNum = 0; colNum < seaSideLength; colNum++) {
 					sea[rowNum][colNum] = Integer.parseInt(st.nextToken());
-					// 방문 배열 최댓값으로 초기화 -> 더 빠르게 도착했을때만 통과
 					visited[rowNum][colNum] = Integer.MAX_VALUE;
 				}
 			}
@@ -80,7 +79,12 @@ public class Solution {
 			destinationX = Integer.parseInt(st.nextToken());
 
 			// 3. 모든 경로를 탐색해서 가장 짧은 시간 구하기
+			visited[startY][startX] = 0;
 			dfs(startY, startX);
+
+			if (minTime == Integer.MAX_VALUE) {
+				minTime = -1;
+			}
 
 			stb.append('#').append(tc).append(' ').append(minTime).append('\n');
 		}
@@ -88,15 +92,18 @@ public class Solution {
 	}
 
 	public static void dfs(int y, int x) {
-
-		// 도착한 위치에 더 빨리 온적이 있으면 이 경로는 더이상 탐색하지 않음
-		if (visited[y][x] > time) {
-			visited[y][x] = time;
-		} else {
+		if (visited[y][x] < time) {
 			return;
+		} else {
+			visited[y][x] = time;
 		}
+
 		// 도착지에 도착했으면 시간확인해서 작으면 최소 시간 업데이트하고 탐색 종료
 		if (y == destinationY && x == destinationX) {
+			if (visited[y][x] > time) {
+				visited[y][x] = time;
+			}
+
 			if (time < minTime) {
 				minTime = time;
 			}
@@ -104,10 +111,10 @@ public class Solution {
 		}
 
 		// 현재 위치에서 갈 수 있는 다음 위치 확인하기
-		for (int rotateIdx = 0; rotateIdx < 4; rotateIdx++) {
+		for (int rotateIdx = 0; rotateIdx < directionY.length; rotateIdx++) {
 			// 다음 위치 좌표 생성
-			int nextY = y + dy[rotateIdx];
-			int nextX = x + dx[rotateIdx];
+			int nextY = y + directionY[rotateIdx];
+			int nextX = x + directionX[rotateIdx];
 
 			// 다음 좌표 이동가능한지 확인
 			if (nextY < 0 || nextY >= seaSideLength || nextX < 0 || nextX >= seaSideLength || sea[nextY][nextX] == 1)
@@ -115,28 +122,27 @@ public class Solution {
 
 			// 다음 좌표에 소용돌이가 있으면 소용돌이를 기다렸다가 건너야 하기 때문에 기다려야 하는 시간을 추가
 			if (sea[nextY][nextX] == 2) {
-				if (time % 3 == 0) {
+				// 소용돌이인 경우 3가지 경우로 나뉨
+				// 경로 탐색 후 돌아와서 더해준 시간 복구 <백트래킹>
+				if (time % 3 == 1) {
 					time += 2;
-				}
-				if (time % 3 == 1) {
-					time++;
-				}
-			}
-
-			// 소용돌이 없으면 시간은 1만 추가
-			time++;
-			dfs(nextY, nextX);
-			// 시간 되돌리고 다른 루트 탐색할 수 있도록 하기 <백트래킹>
-			time--;
-			
-			if (sea[nextY][nextX] == 2) {
-				if (time % 3 == 0) {
+					dfs(nextY, nextX);
 					time -= 2;
-				}
-				if (time % 3 == 1) {
+				} else if (time % 3 == 0) {
+					time += 3;
+					dfs(nextY, nextX);
+					time -= 3;
+				} else {
+					time++;
+					dfs(nextY, nextX);
 					time--;
 				}
+			} else {
+				time++;
+				dfs(nextY, nextX);
+				time--;
 			}
 		}
+
 	}
 }
