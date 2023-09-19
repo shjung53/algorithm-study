@@ -116,22 +116,26 @@ public class Solution {
 			// 다음 좌표에 소용돌이가 있으면 소용돌이를 기다렸다가 건너야 하기 때문에 기다려야 하는 시간을 추가
 			if (sea[nextY][nextX] == 2) {
 				if (time % 3 == 0) {
-					time += 3;
-					dfs(nextY, nextX);
-					// 시간 되돌리고 다른 루트 탐색할 수 있도록 하기 <백트래킹>
-					time -= 3;
-				} else if (time % 3 == 1) {
 					time += 2;
-					dfs(nextY, nextX);
-					// 시간 되돌리고 다른 루트 탐색할 수 있도록 하기 <백트래킹>
+				}
+				if (time % 3 == 1) {
+					time++;
+				}
+			}
+
+			// 소용돌이 없으면 시간은 1만 추가
+			time++;
+			dfs(nextY, nextX);
+			// 시간 되돌리고 다른 루트 탐색할 수 있도록 하기 <백트래킹>
+			time--;
+			
+			if (sea[nextY][nextX] == 2) {
+				if (time % 3 == 0) {
 					time -= 2;
 				}
-			} else {
-				// 소용돌이 없으면 시간은 1만 추가
-				time++;
-				dfs(nextY, nextX);
-				// 시간 되돌리고 다른 루트 탐색할 수 있도록 하기 <백트래킹>
-				time--;
+				if (time % 3 == 1) {
+					time--;
+				}
 			}
 		}
 	}
