@@ -1,4 +1,4 @@
-package ¾ß±¸°ø;
+package ì•¼êµ¬ê³µ;
 
 import java.util.*;
 import java.io.*;
@@ -10,8 +10,8 @@ public class Main {
 
 	static int maxInning;
 	static Player[] players;
-	static boolean[] selected; // ¼±¼ö°¡ ¼±ÅÃµÇ¾ú´ÂÁö ¾ÈµÇ¾ú´ÂÁö
-	static int[] order; // ¸î¹øÂ° ¼±¼öÀÎÁö
+	static boolean[] selected; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ÃµÇ¾ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ÈµÇ¾ï¿½ï¿½ï¿½ï¿½ï¿½
+	static int[] order; // ï¿½ï¿½ï¿½Â° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	static int answer;
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
@@ -20,7 +20,7 @@ public class Main {
 
 		players = new Player[9];
 		for (int i = 0; i < 9; i++) {
-			players[i] = new Player(maxInning); // ¼±¼öµé ÃÊ±âÈ­
+			players[i] = new Player(maxInning); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê±ï¿½È­
 		}
 
 		for (int inning = 0; inning < maxInning; inning++) {
@@ -30,13 +30,13 @@ public class Main {
 			}
 		}
 
-		// ¸ðµç ¼±¼öµé ¼ø¼­ ¸ÕÀú Á¤ÇÏ±â ¼ø¿­
+		// ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½
 		order = new int[9];
 		selected = new boolean[9];
 		answer = Integer.MIN_VALUE;
 
 		selected[0] = true;
-		order[3] = 0; // 1¹ø ¼±¼ö°¡ 4¹øÅ¸ÀÚ
+		order[3] = 0; // 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 4ï¿½ï¿½Å¸ï¿½ï¿½
 		setOrder(0);
 
 		System.out.println(answer);
@@ -46,7 +46,7 @@ public class Main {
 	private static void setOrder(int orderIdx) {
 
 		if (orderIdx == 9) {
-			// ¼ø¼­ ¼±Á¤ ¿Ï·á ÀÌÁ¦ °ÔÀÓ ½ÃÀÛÇÏÀÚ
+			// ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			gameStart();
 			return;
 		}
@@ -57,27 +57,27 @@ public class Main {
 			for (int playerIdx = 1; playerIdx < 9; playerIdx++) {
 				if (selected[playerIdx])
 					continue;
-				selected[playerIdx] = true; // ¼±ÅÃ Ç¥½Ã
-				order[orderIdx] = playerIdx; // ¼ø¼­¿¡ ¼±¼ö ¹øÈ£ ³Ö±â
-				setOrder(orderIdx + 1); // ´ÙÀ½ ¼ø¼­ ¼±ÅÃÇÏ·¯ °£´Ù
-				selected[playerIdx] = false; // ´ÙÀ½ ¼±ÅÃÀ» À§ÇØ Ã¼Å© ÇØÁ¦
+				selected[playerIdx] = true; // ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
+				order[orderIdx] = playerIdx; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È£ ï¿½Ö±ï¿½
+				setOrder(orderIdx + 1); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ ï¿½ï¿½ï¿½ï¿½
+				selected[playerIdx] = false; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã¼Å© ï¿½ï¿½ï¿½ï¿½
 			}
 		}
 	}
 
 	private static void gameStart() {
-		int point = 0; // Á¡¼ö°¡ ¾ó¸¶³ª ³ª´ÂÁö
-		int nowIdx = 0; // ÇöÀç Å¸ÀÚ ¼ø¼­
+		int point = 0; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ó¸¶³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+		int nowIdx = 0; // ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
 		for (int inning = 0; inning < maxInning; inning++) {
 			int outCount = 0;
-			boolean[] base = new boolean[3]; // º£ÀÌ½º
+			boolean[] base = new boolean[3]; // ï¿½ï¿½ï¿½Ì½ï¿½
 
-			// ¾Æ¿ô Ä«¿îÆ® 3°³¸é ´ÙÀ½ ÀÌ´×À¸·Î ³¡
+			// ï¿½Æ¿ï¿½ Ä«ï¿½ï¿½Æ® 3ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì´ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 			while (outCount < 3) {
 				Player now = players[order[nowIdx]];
 
-				// ¼±¼öÀÇ ÇöÀç ÀÌ´× ÆÛÆ÷¸Õ½º ¹Ý¿µ
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ ï¿½Ý¿ï¿½
 				switch (now.performance[inning]) {
 				case 1:
 					if (base[2] == true) {
@@ -157,10 +157,10 @@ public class Main {
 
 				}
 				nowIdx++;
-				nowIdx %= 9; // Ä¡°í ³ª¼­ ´ÙÀ½ Å¸ÀÚ ¼ø¼­
+				nowIdx %= 9; // Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			}
 		}
-		// ¸ðµç ÀÌ´× Á¾·áÇÏ°í Á¡¼ö È®ÀÎ
+		// ï¿½ï¿½ï¿½ ï¿½Ì´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
 		if (point > answer)
 			answer = point;
 	}
