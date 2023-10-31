@@ -1,4 +1,4 @@
-package n과m;
+package n과m2;
 
 import java.util.*;
 import java.io.*;
