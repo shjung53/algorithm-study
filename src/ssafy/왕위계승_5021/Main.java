@@ -8,7 +8,7 @@ public class Main {
 	static StringTokenizer st;
 	static int n;
 	static int m;
-	static HashMap<String, Person> family; // 혈족만 들어가기
+	static HashMap<String, Person> family;
 
 	public static void main(String[] args) throws IOException {
 		br = new BufferedReader(new InputStreamReader(System.in));
@@ -42,10 +42,9 @@ public class Main {
 			father.children.add(childName);
 			mother.children.add(childName);
 
+			// 맵에 넣기
 			family.put(fatherName, father);
 			family.put(motherName, mother);
-
-			child.fleshAndBlood = true; // 혈족임
 			family.put(childName, child);
 		}
 
@@ -56,9 +55,11 @@ public class Main {
 		while (!queue.isEmpty()) {
 			String personName = queue.poll();
 			Person person = family.get(personName);
+			boolean fleshAndBlood = false;
 
 			if (ancestorName.equals(personName)) {
 				person.blood = 1.0;
+				fleshAndBlood = true;
 			} else {
 				Person father = family.get(person.father);
 				Person mother = family.get(person.mother);
@@ -67,16 +68,19 @@ public class Main {
 				double motherBlood;
 
 				if (!father.fleshAndBlood) {
-					fatherBlood = 0.0; // 아버지가 혈족이 아니면 0처리
+					fatherBlood = 0.0; // 혈족이 아니면 0처리
 				} else {
 					fatherBlood = father.blood;
+					fleshAndBlood = true;
 				}
 				if (!mother.fleshAndBlood) {
 					motherBlood = 0.0;
 				} else {
 					motherBlood = mother.blood;
+					fleshAndBlood = true;
 				}
 
+				person.fleshAndBlood = true;
 				person.blood = (fatherBlood + motherBlood) / 2; // 피 계산
 			}
 
