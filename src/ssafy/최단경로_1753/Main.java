@@ -23,9 +23,11 @@ public class Main {
 
 		nodes = new Node[v + 1];
 		edges = new Edge[e];
+        visited = new int[v + 1];
 
-		for (int i = 0; i < v + 1; i++) {
+		for (int i = 1; i <= v; i++) {
 			nodes[i] = new Node();
+            visited[i] = Integer.MAX_VALUE;
 		}
 
 		for (int eIdx = 0; eIdx < e; eIdx++) {
@@ -45,35 +47,52 @@ public class Main {
 				continue;
 			}
 
-			if (nodes[i].weight == 0) {
+			if (visited[i] == Integer.MAX_VALUE) {
 				stb.append("INF").append('\n');
 				continue;
 			}
 
-			stb.append(nodes[i].weight).append('\n');
+			stb.append(visited[i]).append('\n');
 		}
 		System.out.println(stb.toString());
 	}
 
 	private static void bfs(int start) {
-		Queue<Integer> queue = new ArrayDeque<Integer>();
-		queue.offer(start); // 시작노드를 넣는다.
+		PriorityQueue<Loc> queue = new PriorityQueue<Loc>(1, new Comparator<Loc>() {
+			@Override
+			public int compare(Loc o1, Loc o2) {
+				// TODO Auto-generated method stub
+				return visited[o1.nowIdx] - visited[o2.nowIdx];
+			}
+        });
+		queue.offer(new Loc(0, start)); // 시작노드를 넣는다.
+        
 
 		while (!queue.isEmpty()) {
-			int nowIdx = queue.poll();
-			Node now = nodes[nowIdx];
+			Loc nowLoc = queue.poll();
+			Node now = nodes[nowLoc.nowIdx];
+            
+            if(nowLoc.weight > visited[nowLoc.nowIdx]) continue;
 
 			for (int eIdx = 0; eIdx < now.edges.size(); eIdx++) {
 				Edge edge = edges[now.edges.get(eIdx)];
-				if (nodes[edge.to].weight != 0) {
-					if (now.weight + edge.weight > nodes[edge.to].weight)
-						continue;
-				}
-				nodes[edge.to].weight = now.weight + edge.weight;
-				queue.offer(edge.to);
+                if(nowLoc.weight + edge.weight >= visited[edge.to]) continue;
+                
+                visited[edge.to] = nowLoc.weight + edge.weight;
+				queue.offer(new Loc(visited[edge.to], edge.to));
 			}
 		}
 	}
+}
+
+class Loc {
+    int weight;
+    int nowIdx;
+    public Loc(int weight, int nowIdx) {
+        super();
+        this.weight = weight;
+        this.nowIdx = nowIdx;
+    } 
 }
 
 class Edge {
@@ -89,6 +108,5 @@ class Edge {
 }
 
 class Node {
-	int weight = 0;
 	ArrayList<Integer> edges = new ArrayList<Integer>();
 }
