@@ -10,7 +10,7 @@ public class Main {
 	static int e;
 	static Node[] nodes;
 	static int[] goal = new int[10];
-	static int[] myTime;
+	static long[] myTime;
 	static int start;
 	static int answer;
 
@@ -21,7 +21,7 @@ public class Main {
 		e = Integer.parseInt(st.nextToken());
 
 		nodes = new Node[v + 1];
-		myTime = new int[v + 1];
+		myTime = new long[v + 1];
 		answer = Integer.MAX_VALUE;
 
 		for (int i = 1; i <= v; i++) {
@@ -59,20 +59,16 @@ public class Main {
 		setMyTime();
 
 		int idx = 0;
-		int time = 0;
+		long time = 0;
+		int now = goal[idx];
 
 		while (idx < 10) {
-			// 첫번째 위치까지 가는 시간은 0이다.
-			if (idx == 0) {
-				idx++;
-				continue;
-			}
 
-			int now = goal[idx - 1];
-			int[] distance = new int[v + 1];
+			long[] distance = new long[v + 1];
 			for (int i = 1; i <= v; i++) {
 				distance[i] = Integer.MAX_VALUE;
 			}
+			now = goal[idx];
 			distance[now] = time;
 
 			PriorityQueue<Temp> queue = new PriorityQueue<Temp>(1, new Comparator<Temp>() {
@@ -80,7 +76,7 @@ public class Main {
 				@Override
 				public int compare(Temp o1, Temp o2) {
 					// TODO Auto-generated method stub
-					return o1.time - o2.time;
+					return (int) (o1.time - o2.time);
 				}
 			});
 
@@ -101,19 +97,25 @@ public class Main {
 				}
 			}
 
-			if (distance[goal[idx]] == Integer.MAX_VALUE) {
-				idx++;
-			} else {
-				time = distance[goal[idx]];
-				if (distance[goal[idx]] == myTime[goal[idx]]) {
-					if (goal[idx] < answer)
-						answer = goal[idx];
+			if (idx < 9) {
+				if (distance[goal[idx + 1]] != Integer.MAX_VALUE) {
+					time = distance[goal[idx + 1]];
+
+					if (distance[goal[idx + 1]] >= myTime[goal[idx + 1]]) {
+						if (goal[idx + 1] < answer)
+							answer = goal[idx + 1];
+					}
 				}
-				if (distance[goal[idx]] > myTime[goal[idx]])
-					answer = goal[idx];
+				if (distance[goal[idx + 1]] == Integer.MAX_VALUE)
+					idx++;
 			}
+			idx++;
 		}
+
+		if (answer == Integer.MAX_VALUE)
+			answer = -1;
 		
+		if(start == goal[0]) answer = goal[0];
 		System.out.println(answer);
 
 	}
@@ -124,7 +126,7 @@ public class Main {
 			@Override
 			public int compare(Temp o1, Temp o2) {
 				// TODO Auto-generated method stub
-				return o1.time - o2.time;
+				return (int) (o1.time - o2.time);
 			}
 		});
 
@@ -153,12 +155,12 @@ public class Main {
 
 class Temp {
 	int nodeNum;
-	int time = 0;
+	long time = 0;
 
-	public Temp(int nodeNum, int time) {
+	public Temp(int nodeNum, long l) {
 		super();
 		this.nodeNum = nodeNum;
-		this.time = time;
+		this.time = l;
 	}
 }
 
