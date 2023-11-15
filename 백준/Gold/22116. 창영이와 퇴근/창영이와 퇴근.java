@@ -37,6 +37,8 @@ public class Main {
 				return o1.slope - o2.slope;
 			}
 		});
+		
+		HashSet<Edge> set = new HashSet<Edge>();
 
 		// 상하좌우 경로 확인하고 큐에 삽입
 		for (int i = 0; i < n; i++) {
@@ -52,11 +54,18 @@ public class Main {
 					// 연결 지점
 					int from = i * n + j;
 					int to = newY * n + newX;
+					if (from > to) {
+						int temp = from;
+						from = to;
+						to = temp;
+					}
 					int slope = Math.abs(arr[i][j] - arr[newY][newX]);
-					queue.offer(new Edge(from, to, slope));
+					set.add(new Edge(from, to, slope));
 				}
 			}
 		}
+		
+		queue.addAll(set);
 
 		while (!queue.isEmpty()) {
 			Edge edge = queue.poll();
@@ -112,6 +121,34 @@ class Edge {
 		this.from = from;
 		this.to = to;
 		this.slope = slope;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + from;
+		result = prime * result + slope;
+		result = prime * result + to;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Edge other = (Edge) obj;
+		if (from != other.from)
+			return false;
+		if (slope != other.slope)
+			return false;
+		if (to != other.to)
+			return false;
+		return true;
 	}
 
 }
