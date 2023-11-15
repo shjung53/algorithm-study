@@ -37,8 +37,6 @@ public class Main {
 				return o1.slope - o2.slope;
 			}
 		});
-		
-		HashSet<Edge> set = new HashSet<Edge>();
 
 		// 상하좌우 경로 확인하고 큐에 삽입
 		for (int i = 0; i < n; i++) {
@@ -54,18 +52,11 @@ public class Main {
 					// 연결 지점
 					int from = i * n + j;
 					int to = newY * n + newX;
-					if (from > to) {
-						int temp = from;
-						from = to;
-						to = temp;
-					}
 					int slope = Math.abs(arr[i][j] - arr[newY][newX]);
-					set.add(new Edge(from, to, slope));
+					queue.offer(new Edge(from, to, slope));
 				}
 			}
 		}
-		
-		queue.addAll(set);
 
 		while (!queue.isEmpty()) {
 			Edge edge = queue.poll();
@@ -73,10 +64,6 @@ public class Main {
 			int x = edge.from;
 			int y = edge.to;
 
-			if (rank[y] > rank[x]) {
-				x = edge.to;
-				y = edge.from;
-			}
 			if (union(x, y)) {
 				// 연결한 경사가 기존 최대 경사보다 크면 업데이트
 				if (edge.slope > answer)
@@ -97,7 +84,7 @@ public class Main {
 		return parent[node] = findParent(parent[node]);
 	}
 
-	// 경로 연결, 무조건 랭크가 높거나 같도록 앞에서 설정
+	// 경로 연결
 	private static boolean union(int x, int y) {
 		int rootX = findParent(x);
 		int rootY = findParent(y);
@@ -105,7 +92,15 @@ public class Main {
 		// 이미 연결되어 있으면 합칠 수 없음
 		if (rootX == rootY)
 			return false;
-		parent[rootY] = parent[rootX];
+		
+		// 무조건 x가 큰놈으로 설정
+		if(rank[rootY] > rank[rootX]) {
+			int temp = rootX;
+			rootX = rootY;
+			rootY = temp;
+		}
+		
+		parent[rootY] = rootX;
 		rank[rootX]++;
 		return true;
 	}
@@ -121,34 +116,6 @@ class Edge {
 		this.from = from;
 		this.to = to;
 		this.slope = slope;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + from;
-		result = prime * result + slope;
-		result = prime * result + to;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Edge other = (Edge) obj;
-		if (from != other.from)
-			return false;
-		if (slope != other.slope)
-			return false;
-		if (to != other.to)
-			return false;
-		return true;
 	}
 
 }
