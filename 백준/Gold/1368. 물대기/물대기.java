@@ -101,6 +101,7 @@ public class Main {
 		if (xRoot == yRoot)
 			return false;
 		
+		// 이미 각각 물이 대져있으면 연결할 필요가 없다.
 		if (isWatered[yRoot] && isWatered[xRoot])
 			return false;
 
