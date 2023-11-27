@@ -14,7 +14,6 @@ public class Main {
 		br = new BufferedReader(new InputStreamReader(System.in));
 
 		int test = Integer.parseInt(br.readLine().trim());
-		StringBuilder stb = new StringBuilder();
 
 		for (int testCase = 0; testCase < test; testCase++) {
 			st = new StringTokenizer(br.readLine().trim());
