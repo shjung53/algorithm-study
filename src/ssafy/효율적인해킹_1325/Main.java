@@ -4,11 +4,13 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-	static ArrayList<ArrayList<Integer>> board;
+	static HashSet<Integer>[] infect;
+	static HashSet<Integer>[] infectedBy;
 	static int[] count;
-	static boolean[] visited;
 	static int n;
+	static int m;
 	static int max = Integer.MIN_VALUE;
+	static boolean[] visited;
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -16,12 +18,14 @@ public class Main {
 		StringBuilder stb = new StringBuilder();
 
 		n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
-		board = new ArrayList<ArrayList<Integer>>();
+		m = Integer.parseInt(st.nextToken());
+		infect = new HashSet[n + 1];
+		infectedBy = new HashSet[n + 1];
 		count = new int[n + 1];
 
-		for (int i = 1; i <= n+1; i++) {
-			board.add(new ArrayList<Integer>());
+		for (int i = 1; i <= n; i++) {
+			infect[i] = new HashSet<Integer>();
+			infectedBy[i] = new HashSet<Integer>();
 		}
 
 		for (int i = 0; i < m; i++) {
@@ -29,44 +33,43 @@ public class Main {
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
 //			해킹할 수 있는 컴퓨터 추가
-			board.get(b).add(a);
+			infect[b].add(a);
+			infectedBy[a].add(b);
 		}
 
 		for (int i = 1; i <= n; i++) {
-			visited = new boolean[n + 1];
+			if (count[i] > 0)
+				continue;
 			bfs(i);
-			if (count[i] > max)
+			if (count[i] > max) {
 				max = count[i];
+				stb.setLength(0);
+				stb.append(i).append(' ');
+				continue;
+			}
+
+			if (count[i] == max) {
+				stb.append(i).append(' ');
+			}
 		}
 
-		for (int i = 1; i <= n; i++) {
-			if (count[i] == max)
-				stb.append(' ').append(i);
-		}
-
-		stb.deleteCharAt(0);
-
-		System.out.println(stb.toString());
+		System.out.println(stb);
 
 	}
 
-	private static void bfs(int num) {
-		Queue<Integer> queue = new ArrayDeque<>();
-//		현 bfs 방문 visited
+	private static int bfs(int num) {
+		visited = new boolean[n + 1];
 		visited[num] = true;
-		queue.offer(num);
-		count[num]++;
-		while (!queue.isEmpty()) {
-			int child = queue.poll();
-//			현재 i에서 해킹할 수 있는 컴퓨터들 
-			for (int next : board.get(child)) {
-				if (visited[next])
-					continue;
-				visited[next] = true;
-//				현 bfs 최상위 컴퓨터 카운트 추가
-				count[num]++;
-				queue.offer(next);
-			}
+		int subCount = 1;
+
+//			현재 num에서 해킹할 수 있는 컴퓨터들 
+		for (int next : infect[num]) {
+			if (visited[next])
+				continue;
+			visited[next] = true;
+			count[num] += bfs(next);
 		}
+
+		return count[num];
 	}
 }
