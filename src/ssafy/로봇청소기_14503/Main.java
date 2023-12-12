@@ -1,4 +1,4 @@
-package 로봇청소기_14503;
+package ssafy.로봇청소기_14503;
 
 import java.util.*;
 import java.io.*;
@@ -43,7 +43,7 @@ public class Main {
 			boolean cleanAround = true;
 
 			// 반시계 방향으로 돌면서 청소 안했는지 확인
-			for (int k = 0; k < 4; k++) {
+			for (int k = 1; k <= 4; k++) {
 				int newDirection = (direction + k * 3) % 4; // 반시계 방향
 				int newY = y + dy[newDirection];
 				int newX = x + dx[newDirection];
