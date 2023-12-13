@@ -1,4 +1,4 @@
-package ssafy.로봇청소기_14503;
+package 로봇청소기_14503;
 
 import java.util.*;
 import java.io.*;
