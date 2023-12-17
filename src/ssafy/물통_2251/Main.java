@@ -7,20 +7,21 @@ public class Main {
 	static BufferedReader br;
 	static StringTokenizer st;
 	static int[] water; // 0은 a, 1은 b, 2는 c
+	static boolean[][] visited; // a와 c를 기록, b의 높이는 자동으로 알 수 있다.
 	static int[] max;
-	static HashSet<Integer> set;
-	static List<Integer> list;
+	static ArrayList<Integer> list;
 
 	public static void main(String[] args) throws IOException {
 		br = new BufferedReader(new InputStreamReader(System.in));
 		st = new StringTokenizer(br.readLine().trim());
 		water = new int[3];
 		max = new int[3];
+		visited = new boolean[201][201];
 		max[0] = Integer.parseInt(st.nextToken());
 		max[1] = Integer.parseInt(st.nextToken());
 		max[2] = Integer.parseInt(st.nextToken());
 		water[2] = max[2];
-		set = new HashSet<>();
+		list = new ArrayList<Integer>();
 
 		for (int from = 0; from < 3; from++) {
 			for (int to = 0; to < 3; to++) {
@@ -28,8 +29,6 @@ public class Main {
 			}
 		}
 
-		list = new ArrayList<Integer>();
-		list.addAll(set);
 		Collections.sort(list);
 
 		StringBuilder stb = new StringBuilder();
@@ -48,24 +47,20 @@ public class Main {
 			return;
 
 		// 이미 겪었던 상황인 경우
-		if (set.contains(water[2]))
+		if (visited[water[0]][water[2]])
 			return;
+		
+		visited[water[0]][water[2]] = true;
 
 		// a가 빈경우만 답에 포함
 		if (water[0] == 0) {
-			set.add(water[2]);
+			list.add(water[2]);
 		}
-
-		if (turn > Math.ceil((double) max[2] / max[0]) * 2 && turn >= 3)
-			return; // a 물통으로 c 물통 계속 퍼나르는 경우인 동시에 최소 3번은 옮길 수 있어야 함
 
 		for (int from = 0; from < 3; from++) {
 			for (int to = 0; to < 3; to++) {
 				if (from == to)
 					continue; // 같은 물통일 경우
-
-				if (nowFrom == to && nowTo == from)
-					continue; // 이전에 한 행동 되돌릴 경우
 
 				if (water[from] == 0)
 					continue; // 부을 물통이 없을 경우
