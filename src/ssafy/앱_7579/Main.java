@@ -9,7 +9,9 @@ public class Main {
 	static StringTokenizer st;
 	static int n;
 	static int m;
-	static App[] apps;
+	static int[][] dp;
+	static int[] memory;
+	static int[] cost;
 	static int answer;
 
 	public static void main(String[] args) throws IOException {
@@ -18,56 +20,39 @@ public class Main {
 
 		n = Integer.parseInt(st.nextToken());
 		m = Integer.parseInt(st.nextToken());
-		apps = new App[n];
 		answer = Integer.MAX_VALUE;
+		memory = new int[n + 1];
+		cost = new int[n + 1];
 
 		st = new StringTokenizer(br.readLine().trim());
 
-		for (int i = 0; i < n; i++) {
-			apps[i] = new App(i, Integer.parseInt(st.nextToken()), 0);
+		for (int i = 1; i <= n; i++) {
+			memory[i] = Integer.parseInt(st.nextToken());
 		}
 
 		st = new StringTokenizer(br.readLine().trim());
-		for (int i = 0; i < n; i++) {
-			apps[i].cost = Integer.parseInt(st.nextToken());
+		for (int i = 1; i <= n; i++) {
+			cost[i] = Integer.parseInt(st.nextToken());
 		}
 
-		dfs(0, 0, 0);
+		dp = new int[n + 1][100 * n + 1];
+
+		// j는 총 비용, i는 앱의 번호(1번부터 시작)
+		for (int i = 1; i <= n; i++) {
+			for (int j = 0; j <= 100 * n; j++) {
+				if(j - cost[i] < 0) {
+					dp[i][j] = dp[i-1][j];
+					continue;
+				} // 이 앱의 비용을 확보할 수 없는 경우
+				
+				dp[i][j] = Math.max(dp[i-1][j], dp[i-1][j - cost[i]] + memory[i]);
+				if(dp[i][j] >= m) {
+					if(answer > j) answer = j;
+				}
+			}
+		}
 
 		System.out.println(answer);
 
 	}
-
-	private static void dfs(int num, int memorySum, int totalCost) {
-		if (memorySum >= m) {
-			if (totalCost < answer)
-				answer = totalCost;
-			return;
-		}
-
-		if (num >= n)
-			return;
-
-		if (totalCost >= answer)
-			return;
-
-		App app = apps[num];
-
-		dfs(num + 1, memorySum + app.memory, totalCost + app.cost);
-		dfs(num + 1, memorySum, totalCost);
-	}
-}
-
-class App {
-	int num;
-	int memory;
-	int cost;
-
-	public App(int num, int memory, int cost) {
-		super();
-		this.num = num;
-		this.memory = memory;
-		this.cost = cost;
-	}
-
 }
