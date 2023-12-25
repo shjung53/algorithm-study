@@ -14,22 +14,14 @@ public class Main {
         str1 = br.readLine().trim();
         str2 = br.readLine().trim();
 
-        dp = new int[str2.length()][str1.length()];
+        dp = new int[str2.length() + 1][str1.length() + 1];
 
-        for (int i = 0; i < str2.length(); i++) {
-            for (int j = 0; j < str1.length(); j++) {
-                if (str2.charAt(i) == str1.charAt(j)) {
-                    if (i == 0 || j == 0) {
-                        dp[i][j] = 1;
-                    } else {
-                        dp[i][j] = dp[i][j - 1] + 1;
-                        if(dp[i][j] > i + 1) dp[i][j] = i + 1;
-                    }
+        for (int i = 1; i <= str2.length(); i++) {
+            for (int j = 1; j <= str1.length(); j++) {
+                if (str2.charAt(i - 1) == str1.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
                 } else {
-                    int var1 = 0, var2 = 0;
-                    if (i - 1 >= 0) var1 = dp[i - 1][j];
-                    if (j - 1 >= 0) var2 = dp[i][j - 1];
-                    dp[i][j] = Math.max(var1, var2);
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
                 }
             }
         }
@@ -37,29 +29,19 @@ public class Main {
         StringBuilder stb = new StringBuilder();
         ArrayDeque<Character> stack = new ArrayDeque<Character>();
 
-        int y = str2.length() - 1;
-        int x = str1.length() - 1;
+        int y = str2.length();
+        int x = str1.length();
 
-        while (x >= 0 || y >= 0) {
-
-            if (y < 0 || x < 0) break;
-
-            if (x > 0) {
-                if (dp[y][x] == dp[y][x - 1]) {
-                    x = x - 1;
-                    continue;
-                }
+        while (x >0 && y >0) {
+            if (dp[y][x] == dp[y][x - 1]) {
+                x = x - 1;
+            } else if (dp[y][x] == dp[y - 1][x]) {
+                y = y - 1;
+            } else {
+                stack.push(str1.charAt(x - 1));
+                y = y - 1;
+                x = x - 1;
             }
-            if (y > 0) {
-                if (dp[y][x] == dp[y - 1][x]) {
-                    y = y - 1;
-                    continue;
-                }
-            }
-
-            stack.push(str1.charAt(x));
-            y = y - 1;
-            x = x - 1;
         }
 
         while (!stack.isEmpty()) {
