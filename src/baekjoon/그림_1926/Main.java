@@ -1,4 +1,4 @@
-package ssafy.그림_1926;
+package baekjoon.그림_1926;
 
 import java.util.*;
 import java.io.*;

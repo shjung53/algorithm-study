@@ -1,4 +1,4 @@
-package ssafy.트럭_13335;
+package baekjoon.트럭_13335;
 
 import java.util.*;
 import java.io.*;

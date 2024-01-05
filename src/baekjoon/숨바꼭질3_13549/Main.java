@@ -1,4 +1,4 @@
-package ssafy.숨바꼭질3_13549;
+package baekjoon.숨바꼭질3_13549;
 
 import java.util.*;
 import java.io.*;

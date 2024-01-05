@@ -1,4 +1,4 @@
-package ssafy.n과m3;
+package baekjoon.n과m1;
 
 import java.util.*;
 import java.io.*;
@@ -9,6 +9,7 @@ public class Main {
     static int n;
     static int m;
     static int[] permutation;
+    static boolean[] visited;
     static StringBuilder stb = new StringBuilder();
 
     public static void main(String[] args) throws NumberFormatException, IOException {
@@ -17,6 +18,7 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
         permutation = new int[m];
+        visited = new boolean[n + 1];
         dfs(1, 0);
         System.out.println(stb);
 
@@ -33,8 +35,11 @@ public class Main {
         }
 
         for (int i = 1; i <= n; i++) {
+            if(visited[i]) continue;
+            visited[i] = true;
             permutation[length] = i;
             dfs(i + 1, length + 1);
+            visited[i] = false;
         }
     }
 }

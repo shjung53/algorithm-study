@@ -1,4 +1,4 @@
-package ssafy.회문_17609;
+package baekjoon.회문_17609;
 
 import java.util.*;
 import java.io.*;

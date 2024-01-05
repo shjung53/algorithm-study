@@ -1,4 +1,4 @@
-package ssafy.괄호의_2504;
+package baekjoon.괄호의_2504;
 
 import java.util.*;
 import java.io.*;

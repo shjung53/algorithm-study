@@ -1,4 +1,4 @@
-package 외판원순회_2098;
+package baekjoon.외판원순회2_10971;
 
 import java.util.*;
 import java.io.*;

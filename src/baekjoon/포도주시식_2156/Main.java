@@ -1,4 +1,4 @@
-package ssafy.포도주시식_2156;
+package baekjoon.포도주시식_2156;
 
 import java.util.*;
 import java.io.*;

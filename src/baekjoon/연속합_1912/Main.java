@@ -1,4 +1,4 @@
-package ssafy.연속합_1912;
+package baekjoon.연속합_1912;
 
 import java.util.*;
 import java.io.*;

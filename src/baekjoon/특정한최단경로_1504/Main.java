@@ -1,4 +1,4 @@
-package ssafy.특정한최단경로_1504;
+package baekjoon.특정한최단경로_1504;
 
 import java.util.ArrayList;
 import java.io.*;
