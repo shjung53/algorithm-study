@@ -1,4 +1,4 @@
-package ssafy.AB;
+package baekjoon.AB;
 
 import java.util.*;
 import java.io.*;

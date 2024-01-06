@@ -1,4 +1,4 @@
-package ssafy.rgb거리_1149;
+package baekjoon.rgb거리_1149;
 
 import java.util.*;
 import java.io.*;

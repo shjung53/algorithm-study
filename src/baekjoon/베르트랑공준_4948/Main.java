@@ -1,4 +1,4 @@
-package ssafy.베르트랑공준_4948;
+package baekjoon.베르트랑공준_4948;
 
 import java.util.*;
 import java.io.*;

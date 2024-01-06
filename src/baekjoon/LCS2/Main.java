@@ -1,4 +1,4 @@
-package ssafy.LCS2;
+package baekjoon.LCS2;
 
 import java.util.*;
 import java.io.*;
