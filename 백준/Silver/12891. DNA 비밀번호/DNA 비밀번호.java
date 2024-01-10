@@ -2,7 +2,8 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static int s, p;
+    static int s, p, left, right;
+    static String str;
     static HashMap<Character, Integer> rule;
     static HashMap<Character, Integer> count;
 
@@ -16,7 +17,7 @@ public class Main {
         s = Integer.parseInt(st.nextToken());
         p = Integer.parseInt(st.nextToken());
         int answer = 0;
-        String str = br.readLine().trim();
+        str = br.readLine().trim();
 
         rule = new HashMap<>();
         count = new HashMap<>();
@@ -27,8 +28,8 @@ public class Main {
         rule.put('G', Integer.parseInt(st.nextToken()));
         rule.put('T', Integer.parseInt(st.nextToken()));
 
-        int left = 0;
-        int right = p - 1;
+        left = 0;
+        right = p - 1;
 
         String password = str.substring(left, right + 1);
 
@@ -38,44 +39,33 @@ public class Main {
 
         while(right < s) {
             if(count.getOrDefault('A', 0) < rule.getOrDefault('A', 0)) {
-                count.put(str.charAt(left), count.getOrDefault(str.charAt(left), 0) - 1);
-                left++;
-                right++;
-                if(right >= s) break;
-                count.put(str.charAt(right), count.getOrDefault(str.charAt(right), 0) + 1);
+                if (moveRight()) break;
                 continue;
             }
             if(count.getOrDefault('C', 0) < rule.getOrDefault('C', 0)) {
-                count.put(str.charAt(left), count.getOrDefault(str.charAt(left), 0) - 1);
-                left++;
-                right++;
-                if(right >= s) break;
-                count.put(str.charAt(right), count.getOrDefault(str.charAt(right), 0) + 1);
+                if (moveRight()) break;
                 continue;
             }
             if(count.getOrDefault('G', 0) < rule.getOrDefault('G', 0)) {
-                count.put(str.charAt(left), count.getOrDefault(str.charAt(left), 0) - 1);
-                left++;
-                right++;
-                if(right >= s) break;
-                count.put(str.charAt(right), count.getOrDefault(str.charAt(right), 0) + 1);
+                if (moveRight()) break;
                 continue;
             }
             if(count.getOrDefault('T', 0) < rule.getOrDefault('T', 0)) {
-                count.put(str.charAt(left), count.getOrDefault(str.charAt(left), 0) - 1);
-                left++;
-                right++;
-                if(right >= s) break;
-                count.put(str.charAt(right), count.getOrDefault(str.charAt(right), 0) + 1);
+                if (moveRight()) break;
                 continue;
             }
             answer++;
-            count.put(str.charAt(left), count.getOrDefault(str.charAt(left), 0) - 1);
-            left++;
-            right++;
-            if(right >= s) break;
-            count.put(str.charAt(right), count.getOrDefault(str.charAt(right), 0) + 1);
+            if (moveRight()) break;
         }
         System.out.println(answer);
+    }
+
+    private static boolean moveRight() {
+        count.put(str.charAt(left), count.getOrDefault(str.charAt(left), 0) - 1);
+        left++;
+        right++;
+        if(right >= s) return true;
+        count.put(str.charAt(right), count.getOrDefault(str.charAt(right), 0) + 1);
+        return false;
     }
 }
