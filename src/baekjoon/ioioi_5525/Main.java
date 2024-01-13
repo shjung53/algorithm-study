@@ -28,6 +28,8 @@ public class Main {
             beforeChar = str.charAt(idx);
         }
 
+        if ((count - 1) / 2 >= n) answer += 1 + ((count - 1) / 2) - n;
+
         System.out.println(answer);
     }
 }
