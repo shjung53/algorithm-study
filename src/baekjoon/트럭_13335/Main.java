@@ -7,9 +7,11 @@ public class Main {
     static BufferedReader br;
     static StringTokenizer st;
 
-    static int n, w, l;
+    static int n, w, l, totalWeight, time;
     static int[] weights;
-    static int[] pos; // 트럭들의 포지션 0은 아직 진입 x, 1~w까지는 다리 위, w+1 부터는 다리를 지나간 상태
+
+    static Queue<Integer> queue;
+    static Queue<Integer> bridge;
     public static void main(String[] args) throws IOException {
         br = new BufferedReader(new InputStreamReader(System.in));
         st = new StringTokenizer(br.readLine().trim());
@@ -17,49 +19,44 @@ public class Main {
         w = Integer.parseInt(st.nextToken());
         l = Integer.parseInt(st.nextToken());
 
-        weights = new int[n];
-        pos = new int[n];
+        weights = new int[n + 1];
 
         st = new StringTokenizer(br.readLine().trim());
 
-        for(int i=0; i<n; i++) {
+        for(int i=1; i<=n; i++) {
             weights[i] = Integer.parseInt(st.nextToken());
         }
 
-        int totalWeight = 0;
-        int time = 0;
-        int index =0;
+        totalWeight = 0;
+        time = 0;
 
-        Queue<Integer> queue = new ArrayDeque<Integer>(); // 인덱스를 넣는다.
-        queue.offer(index);
-        time++;
-        index++;
+        queue = new ArrayDeque<Integer>(); // 대기 큐.
+        for(int i=1; i<=n; i++) {
+            queue.offer(i);
+        }
+        bridge = new ArrayDeque<>();
+
+        for(int i=0; i<w; i++) {
+            bridge.offer(0);
+        }
 
         while(!queue.isEmpty()) {
-            if(totalWeight + weights[index] <= w) {
-                int frontIndex = queue.peek(); // 맨 앞에 있는 트럭 인덱스
-                for(int truckIdx = frontIndex; truckIdx < index; truckIdx++) {
-                    pos[truckIdx] ++; // 다리 위 모든 트럭 한칸씩 이동
-                }
-                if(pos[frontIndex] > w) {
-                    queue.poll();
-                    totalWeight -= weights[frontIndex];
-                }
-                queue.offer(index);
-                time++;
-                totalWeight += weights[index];
-                index++;
+            if(totalWeight - weights[bridge.peek()] + weights[queue.peek()] > l) {
+                totalWeight -= weights[bridge.poll()];
+                bridge.offer(0);
             } else {
-                while(totalWeight + weights[index] > w) {
-                    int frontIndex = queue.poll(); // 맨 앞에 있는 트럭 인덱스
-                    int frontOutTime = w + 1 -pos[frontIndex]; // 맨 앞에 있는 트럭이 이동해야 하는 거리
-                    for(int truckIdx = frontIndex; truckIdx < index; truckIdx++) {
-                        pos[truckIdx] += frontIndex; // 다리 위 모든 트럭 이동
-                    }
-                    time += frontOutTime; // 시간 반영
-                }
-                queue.offer(index);
+                totalWeight -= weights[bridge.poll()];
+                totalWeight += weights[queue.peek()];
+                bridge.offer(queue.poll());
             }
+            time++;
         }
+
+        while(totalWeight > 0) {
+            totalWeight -= weights[bridge.poll()];
+            time++;
+        }
+
+        System.out.println(time);
     }
 }
